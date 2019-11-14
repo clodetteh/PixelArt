@@ -23,6 +23,10 @@ var nombreColores = ['White', 'LightYellow',
 //Variables globales
 let $paleta = $("#paleta");
 let $grillaPixeles = $("#grilla-pixeles");
+let $indicadorColor = $("#indicador-de-color");
+let $indicadorMensaje = $("#indicador-de-color-mensaje");
+
+let colorSeleccionado = 0;
 
 // Variable para guardar el elemento 'color-personalizado'
 // Es decir, el que se elige con la rueda de color.
@@ -38,14 +42,36 @@ colorPersonalizado.addEventListener('change',
   })
 );
 
-//Funciones
+//Carga del documento
 $(document).ready(
-  paletaColores()
-  
+  paletaColores(),
+  pintarGrilla()
+
 );
 
+//Funciones
 function paletaColores() {
   for(let i = 0; i < nombreColores.length; i++){
     $('<div/>', {'class': 'color-paleta'}).css({'background-color' : nombreColores[i]}).appendTo($paleta);
   }
 };
+
+function pintarGrilla() {
+  for (let i = 0; i <= 1750; i++){
+    $('<div/>').appendTo($grillaPixeles);
+}
+};
+
+$("#paleta div").click(
+  function () {
+    colorSeleccionado = $(this).css('background-color');
+    $indicadorColor.css({'background-color' : colorSeleccionado});
+    $indicadorMensaje.html('Pincel: ' + colorSeleccionado);
+  }
+);
+
+$("#grilla-pixeles div").click(
+  function() {
+    $(this).css({'background-color' : colorSeleccionado});
+  }
+);
