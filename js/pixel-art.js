@@ -20,6 +20,10 @@ var nombreColores = ['White', 'LightYellow',
   'DimGray', 'LightSlateGray', 'DarkSlateGray', 'Black'
 ];
 
+//Variables globales
+let $paleta = $("#paleta");
+let $grillaPixeles = $("#grilla-pixeles");
+
 // Variable para guardar el elemento 'color-personalizado'
 // Es decir, el que se elige con la rueda de color.
 var colorPersonalizado = document.getElementById('color-personalizado');
@@ -33,3 +37,15 @@ colorPersonalizado.addEventListener('change',
 
   })
 );
+
+//Funciones
+$(document).ready(
+  paletaColores()
+  
+);
+
+function paletaColores() {
+  for(let i = 0; i < nombreColores.length; i++){
+    $('<div/>', {'class': 'color-paleta'}).css({'background-color' : nombreColores[i]}).appendTo($paleta);
+  }
+};
