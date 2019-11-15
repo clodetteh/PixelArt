@@ -22,11 +22,13 @@ var nombreColores = ['White', 'LightYellow',
 
 //Variables globales
 let $paleta = $("#paleta");
-let $grillaPixeles = $("#grilla-pixeles");
+let $grilla = $("#grilla-pixeles");
+//let $grillaPixeles = $("#grilla-pixeles div");
 let $indicadorColor = $("#indicador-de-color");
 let $indicadorMensaje = $("#indicador-de-color-mensaje");
+let mouseApretado = false;
 
-let colorSeleccionado = 0;
+let colorElegido = 0;
 
 // Variable para guardar el elemento 'color-personalizado'
 // Es decir, el que se elige con la rueda de color.
@@ -36,9 +38,7 @@ colorPersonalizado.addEventListener('change',
   (function() {
     // Se guarda el color de la rueda en colorActual
     colorActual = colorPersonalizado.value;
-    // Completar para que cambie el indicador-de-color al colorActual
-
-
+    cambiarIndicador(colorActual);
   })
 );
 
@@ -58,20 +58,46 @@ function paletaColores() {
 
 function pintarGrilla() {
   for (let i = 0; i <= 1750; i++){
-    $('<div/>').appendTo($grillaPixeles);
+    $('<div/>').appendTo($grilla);
 }
 };
 
+
+
+function cambiarIndicador(colorGuardado) {
+  $indicadorColor.css({'background-color' : colorGuardado});
+  $indicadorMensaje.html('Pincel: ' + colorGuardado);
+  colorElegido = colorGuardado;
+
+};
+
+function colorear(selector, estilo) {
+  $(selector).css(estilo);
+ }
+
+//EVENTOS
 $("#paleta div").click(
   function () {
-    colorSeleccionado = $(this).css('background-color');
-    $indicadorColor.css({'background-color' : colorSeleccionado});
-    $indicadorMensaje.html('Pincel: ' + colorSeleccionado);
+    let colorSeleccionado = $(this).css('background-color');
+    cambiarIndicador(colorSeleccionado);
   }
 );
 
-$("#grilla-pixeles div").click(
+
+$("#grilla-pixeles div")
+.click(
   function() {
-    $(this).css({'background-color' : colorSeleccionado});
-  }
-);
+    colorear(this, {'background-color': colorElegido});
+})
+.mousedown(function() {
+    mouseApretado = true;
+})
+.mousemove(function() {
+    if(mouseApretado) {
+      colorear(this, {'background-color': colorElegido});
+    } 
+ })
+.mouseup(function() {
+    mouseApretado = false;
+});
+
