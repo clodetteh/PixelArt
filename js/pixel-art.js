@@ -21,11 +21,11 @@ var nombreColores = ['White', 'LightYellow',
 ];
 
 //Variables globales
-let $paleta = $("#paleta");
-let $grilla = $("#grilla-pixeles");
-//let $grillaPixeles = $("#grilla-pixeles div");
-let $indicadorColor = $("#indicador-de-color");
-let $indicadorMensaje = $("#indicador-de-color-mensaje");
+let paleta = "#paleta";
+let grilla = "#grilla-pixeles";
+let grillaPixeles = "#grilla-pixeles div";
+let indicadorColor = "#indicador-de-color";
+let indicadorMensaje = "#indicador-de-color-mensaje";
 let mouseApretado = false;
 
 let colorElegido = 0;
@@ -45,28 +45,32 @@ colorPersonalizado.addEventListener('change',
 //Carga del documento
 $(document).ready(
   paletaColores(),
-  pintarGrilla()
+  pintarGrilla(),
+  pintarSuperheroe ("#batman", batman),
+  pintarSuperheroe ("#wonder", wonder),
+  pintarSuperheroe ("#flash", flash),
+  pintarSuperheroe ("#invisible", invisible)
 
 );
 
 //Funciones
 function paletaColores() {
   for(let i = 0; i < nombreColores.length; i++){
-    $('<div/>', {'class': 'color-paleta'}).css({'background-color' : nombreColores[i]}).appendTo($paleta);
+    $('<div/>', {'class': 'color-paleta'}).css({'background-color' : nombreColores[i]}).appendTo(paleta);
   }
 };
 
 function pintarGrilla() {
   for (let i = 0; i <= 1750; i++){
-    $('<div/>').appendTo($grilla);
+    $('<div/>').appendTo(grilla);
 }
 };
 
 
 
 function cambiarIndicador(colorGuardado) {
-  $indicadorColor.css({'background-color' : colorGuardado});
-  $indicadorMensaje.html('Pincel: ' + colorGuardado);
+  $(indicadorColor).css({'background-color' : colorGuardado});
+  $(indicadorMensaje).html('Pincel: ' + colorGuardado);
   colorElegido = colorGuardado;
 
 };
@@ -84,7 +88,7 @@ $("#paleta div").click(
 );
 
 
-$("#grilla-pixeles div")
+$(grillaPixeles)
 .click(
   function() {
     colorear(this, {'background-color': colorElegido});
@@ -100,4 +104,26 @@ $("#grilla-pixeles div")
 .mouseup(function() {
     mouseApretado = false;
 });
+
+$("#borrar").click(
+  function() {
+    $(grillaPixeles).animate({"background-color" : "#ffffff", "opacity" : "1"}, 1000);
+  });
+
+$("#guardar").click(
+  function() {
+    guardarPixelArt();
+  }
+);
+
+//Carga super heroes
+
+function pintarSuperheroe (selector, superHeroe){
+$(selector).click(
+  function() {
+    cargarSuperheroe(superHeroe)
+  });
+}
+
+
 
